@@ -1,33 +1,14 @@
-import { FC, useEffect, useMemo, useRef } from "react";
+import { FC } from "react";
 
 import { Image } from "expo-image";
-import { QRCodeRenderersOptions, toCanvas } from "qrcode";
 
-interface IQrCode {
-    address: string
-}
+import useEthWalletQr from "../hooks/useEthWalletQr";
 
-const QrCode: FC<IQrCode> = ({ address }) => {
+const QrCode: FC = () => {
 
-    const imageRef = useRef<Image>(null);
+    const { qrCode } = useEthWalletQr();
 
-    const payload = useMemo(() => JSON.stringify({ address }), [address]);
-
-    useEffect(() => {
-
-        const options: QRCodeRenderersOptions = {
-            margin: 1,
-            color: {
-                dark: "#010599FF",
-                light: "#FFBF60FF"
-            },
-        };
-
-        // toCanvas(imageRef.current, payload, options);
-
-    }, [imageRef, payload]);
-
-    return <Image ref={imageRef} />;
+    return <Image source={qrCode} />;
 };
 
 export default QrCode;
