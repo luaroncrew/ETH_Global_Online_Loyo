@@ -1,5 +1,15 @@
-import axios from "axios";
+import LoyoAccounts from "./features/LoyoAccounts";
 
-export const LoyoClient = axios.create({
-    baseURL: "https://localhost:8000"
-});
+class LoyoClient {
+
+    public accounts: LoyoAccounts;
+
+    constructor() {
+
+        this.accounts = new LoyoAccounts();
+    }
+};
+
+export const loyoClient = new LoyoClient();
+
+export default LoyoClient;

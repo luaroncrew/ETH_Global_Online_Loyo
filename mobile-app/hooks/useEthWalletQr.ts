@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import useEthWallet from "./useEthWallet";
-import { LoyoClient } from "../axios";
+import { loyoClient } from "../axios";
 
 const useEthWalletQr = () => {
 
@@ -13,10 +13,8 @@ const useEthWalletQr = () => {
 
         if (keyPair) {
 
-            LoyoClient.post<string>("/qr", {
-                address: keyPair.publicKey
-            }).then((response) => {
-                setQrCode(response.data);
+            loyoClient.accounts.getQr(keyPair.publicKey).then(({ qrCode }) => {
+                setQrCode(qrCode);
             });
         }
     }, [keyPair]);
