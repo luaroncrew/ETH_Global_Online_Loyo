@@ -7,13 +7,13 @@ import {
 } from "expo-crypto";
 
 import { getItemAsync, setItemAsync } from "expo-secure-store";
-
-import { LoyoClient } from "../axios";
+import { loyoClient } from "../http";
 
 const PUBLIC_KEY = "PUBLIC_KEY";
 const PRIVATE_KEY = "PRIVATE_KEY";
 
-const useEthWallet = () => {
+const useAccountAbstraction = () => {
+
   const [keyPair, setKeyPair] = useState<{
     privateKey: string;
     publicKey: string;
@@ -43,13 +43,11 @@ const useEthWallet = () => {
 
       const privateKey = await digestStringAsync(CryptoDigestAlgorithm.SHA256, getRandomBytes(64).toString());
 
-      const { data } = await LoyoClient.post<{ publicKey: string }>("/user-opration/setup-wallet", {
-        address: privateKey
-      });
+      const { publicKey } = await loyoClient.accounts.setupWallet(privateKey);
 
       setKeyPair({
         privateKey,
-        publicKey: data.publicKey,
+        publicKey,
       });
     }
   }, []);
@@ -70,4 +68,4 @@ const useEthWallet = () => {
   };
 };
 
-export default useEthWallet;
+export default useAccountAbstraction;
