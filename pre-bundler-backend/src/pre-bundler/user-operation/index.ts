@@ -12,11 +12,11 @@ router.get("/spend-loyalty", (req: Request, res: Response) => {
 
 
 router.post("/setup-wallet", async (req: Request, res: Response) => {
-  let prKey = "test";
-  if (req.body) {
-    prKey = req.body["privateKey"];
-  }
-  const publicAddress = await resolveAddress(prKey);
+
+  const { body: { privateKey } } = req;
+
+  const publicAddress = await resolveAddress(privateKey);
+
   res.json({ publicKey: publicAddress }).send();
 });
 

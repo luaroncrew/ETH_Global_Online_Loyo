@@ -1,20 +1,30 @@
 import { Stack } from "expo-router";
+import useEthWallet from "../hooks/useEthWallet";
+import { useEffect } from "react";
 
 export {
-  // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from "expo-router";
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: "(tabs)",
 };
 
-export default function RootLayout() {
+const RootLayout = () => {
+
+  const { initWallet } = useEthWallet();
+
+  useEffect(() => {
+
+    initWallet();
+  }, [initWallet]);
+
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="modal" options={{ presentation: "modal" }} />
     </Stack>
   );
-}
+};
+
+export default RootLayout;
