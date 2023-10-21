@@ -1,35 +1,48 @@
+import { useCallback, useEffect, useState } from "react";
+
+import { CryptoDigestAlgorithm, digestStringAsync, getRandomBytes, randomUUID } from "expo-crypto";
+
 import { getItemAsync, setItemAsync } from "expo-secure-store";
-import { useCallback, useState } from "react";
 
 const PUBLIC_KEY = "PUBLIC_KEY";
 const PRIVATE_KEY = "PRIVATE_KEY";
 
 const useEthWallet = () => {
 
-    const [publicKey, setPublicKey] = useState<string>();
-    const [privateKey, setPrivateKey] = useState<string>();
+    const [keyPair, setKeyPair] = useState<{ privateKey: string, publicKey: string }>();
 
-    const initEthWallet = useCallback(async () => {
+    useEffect(() => {
 
-        const _publicKey = await getItemAsync(PUBLIC_KEY);
-        const _privateKey = await getItemAsync(PRIVATE_KEY);
+        const initKeyPair = async () => {
 
-        if (_publicKey && _privateKey) {
+            let publicKey = await getItemAsync(PUBLIC_KEY);
+            let privateKey = await getItemAsync(PRIVATE_KEY);
 
-            setPublicKey(_publicKey);
-            setPrivateKey(_privateKey);
-        }
-        else {
+            if (publicKey && privateKey) {
 
-            setItemAsync(PUBLIC_KEY, "public_key");
-            setItemAsync(PRIVATE_KEY, "private_key");
-        }
-    }, []);
+            }
+            else {
+
+                const bytes = getRandomBytes(64).toString();
+
+                privateKey = await digestStringAsync(CryptoDigestAlgorithm.SHA256, bytes);
+                setItemAsync(PRIVATE_KEY, privateKey);
+
+                publicKey = "public_key"; // TODO: get from backend
+                setItemAsync(PUBLIC_KEY, publicKey);
+            }
+
+            setKeyPair({
+                publicKey,
+                privateKey
+            });
+        };
+
+        initKeyPair();
+    }, [])
 
     return {
-        initEthWallet,
-        publicKey,
-        privateKey,
+        keyPair
     }
 };
 
