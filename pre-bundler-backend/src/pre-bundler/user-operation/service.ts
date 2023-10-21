@@ -1,7 +1,7 @@
-import {ethers} from "ethers";
-import {Presets, Client} from "userop";
+import { ethers } from "ethers";
+import { Presets, Client } from "userop";
 import dotenv from "dotenv";
-import {loyoABI} from "@/pre-bundler/user-operation/LOYO_BUSINESS_TOKEN_ABI";
+import { loyoABI } from "@/pre-bundler/user-operation/LOYO_BUSINESS_TOKEN_ABI";
 import * as process from "process";
 
 
@@ -24,19 +24,19 @@ export interface PaymasterParameters {
  * @param privateKey
  */
 export async function resolveAddress(privateKey: string) {
+
     const bundlerUrl = getBundlerUrl();
-    try {
-        const simpleAccount = await Presets.Builder.SimpleAccount.init(
-            new ethers.Wallet(privateKey),
-            bundlerUrl
-        );
-        const address = simpleAccount.getSender();
-        console.log(`SimpleAccount address: ${address}`);
-        return address;
-    }
-    catch (e) {
-        throw e;
-    }
+
+    const simpleAccount = await Presets.Builder.SimpleAccount.init(
+        new ethers.Wallet(privateKey),
+        bundlerUrl
+    );
+    
+    const address = simpleAccount.getSender();
+
+    console.log(`SimpleAccount address: ${address}`);
+
+    return address;
 }
 
 
@@ -46,7 +46,7 @@ export async function ERC20Transfer(
     tokenAmount: string,
     withPaymaster: boolean,
     privateKey: string  // maranzana's nightmare FIXME: create operation in frontend and send a signed operation
-                        // without any private key
+    // without any private key
 ) {
     // parameters that will be used for the paymaster
     let paymasterMiddleware = undefined;

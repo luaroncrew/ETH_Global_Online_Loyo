@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   CryptoDigestAlgorithm,
   digestStringAsync,
-  getRandomBytes,
+  getRandomBytes
 } from "expo-crypto";
 
-import { getItemAsync, setItemAsync } from "expo-secure-store";
+import { getItemAsync, setItemAsync, deleteItemAsync } from "expo-secure-store";
 import { loyoClient } from "../http";
 
 const PUBLIC_KEY = "PUBLIC_KEY";
@@ -21,6 +21,7 @@ const useAccountAbstraction = () => {
 
   // Recover public en private keys
   useEffect(() => {
+
     const init = async () => {
 
       const publicKey = await getItemAsync(PUBLIC_KEY);
@@ -39,12 +40,18 @@ const useAccountAbstraction = () => {
           console.debug("useAccountAbstraction.ensureWallet", "publicKey and privateKey recovered from secured store")
         }
         else {
+
+          await deleteItemAsync(PUBLIC_KEY);
+
           console.debug("useAccountAbstraction.ensureWallet", "publicKey found but not privateKey")
         }
       }
       else {
 
-        const privateKey = await digestStringAsync(CryptoDigestAlgorithm.SHA256, getRandomBytes(64).toString());
+        const privateKey = "730f75dafd73e047b86acb2dbd74e75dcb93272fa084a9082848f2341aa1abb6";
+        // const privateKey = await digestStringAsync(CryptoDigestAlgorithm.SHA256, getRandomBytes(64).toString());
+
+        console.debug("useAccountAbstraction.ensureWallet", "trying to generate a public key");
 
         const { publicKey } = await loyoClient.prebundler.setupWallet(privateKey);
 
@@ -58,6 +65,7 @@ const useAccountAbstraction = () => {
     };
 
     init();
+
   }, []);
 
   // Store public en private keys
