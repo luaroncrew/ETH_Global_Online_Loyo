@@ -1,4 +1,18 @@
 K-fetoken deployed on Mumbai
-
 address: 0x0D138a23541905e963a32eBD227C96ec741408a0
 
+
+accounts with Kfet tokens (public keys for checking balances):
+
+0x35979BDd030CF42508151FFEDd961263FC50133A
+0x7F63b5f8375f3B066EF1D151020Af087FdD812Bf
+
+
+
+account with kfet tokens with some MATIC (just in case):
+
+private key:
+ee32e6648d93e9c52fa2b7fa63b07dbe345626798c2383fdee739a694e13c664
+
+public key:
+0x262eA05900e3D7Aae7d1019c9e1d42b6BDCee3e5
