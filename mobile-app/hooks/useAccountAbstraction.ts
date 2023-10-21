@@ -7,12 +7,12 @@ import {
 } from "expo-crypto";
 
 import { getItemAsync, setItemAsync } from "expo-secure-store";
-import { loyoClient } from "../axios";
+import { loyoClient } from "../http";
 
 const PUBLIC_KEY = "PUBLIC_KEY";
 const PRIVATE_KEY = "PRIVATE_KEY";
 
-const useEthWallet = () => {
+const useAccountAbstraction = () => {
 
   const [keyPair, setKeyPair] = useState<{
     privateKey: string;
@@ -68,4 +68,4 @@ const useEthWallet = () => {
   };
 };
 
-export default useEthWallet;
+export default useAccountAbstraction;

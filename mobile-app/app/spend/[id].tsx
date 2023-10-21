@@ -7,7 +7,7 @@ const Page: FC = () => {
     const local = useLocalSearchParams<{ id: string }>();
 
     return <View style={{ flex: 1, flexDirection: 'column' }}>
-        store with id {local.id}
+        Spend your fidelity tokens! {local.id}
     </View>;
 };
 

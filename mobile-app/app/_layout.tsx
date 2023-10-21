@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import useEthWallet from "../hooks/useEthWallet";
+import useAccountAbstraction from "../hooks/useAccountAbstraction";
 import { useEffect } from "react";
 
 export {
@@ -12,7 +12,7 @@ export const unstable_settings = {
 
 const RootLayout = () => {
 
-  const { initWallet } = useEthWallet();
+  const { initWallet } = useAccountAbstraction();
 
   useEffect(() => {
 
