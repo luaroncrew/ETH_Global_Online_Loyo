@@ -23,7 +23,7 @@ const QrCode: FC<IQrCode> = ({ address }) => {
             },
         };
 
-        toCanvas(imageRef.current, payload, options);
+        // toCanvas(imageRef.current, payload, options);
 
     }, [imageRef, payload]);
 
