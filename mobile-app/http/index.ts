@@ -1,5 +1,5 @@
 import LoyoAccounts from "./features/LoyoAccounts";
-import LoyoPrebundler from "./features/LoyoPreBundler";
+import LoyoPrebundler from "./features/LoyoPrebundler";
 
 class LoyoClient {
 
