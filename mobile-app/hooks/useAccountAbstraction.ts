@@ -20,36 +20,44 @@ const useAccountAbstraction = () => {
   }>();
 
   // Recover public en private keys
-  const initWallet = useCallback(async () => {
+  useEffect(() => {
+    const init = async () => {
 
-    const publicKey = await getItemAsync(PUBLIC_KEY);
+      const publicKey = await getItemAsync(PUBLIC_KEY);
 
-    if (publicKey) {
+      if (publicKey) {
 
-      const privateKey = await getItemAsync(PRIVATE_KEY);
+        const privateKey = await getItemAsync(PRIVATE_KEY);
 
-      if (privateKey) {
+        if (privateKey) {
+
+          setKeyPair({
+            privateKey,
+            publicKey,
+          });
+
+          console.debug("useAccountAbstraction.ensureWallet", "publicKey and privateKey recovered from secured store")
+        }
+        else {
+          console.debug("useAccountAbstraction.ensureWallet", "publicKey found but not privateKey")
+        }
+      }
+      else {
+
+        const privateKey = await digestStringAsync(CryptoDigestAlgorithm.SHA256, getRandomBytes(64).toString());
+
+        const { publicKey } = await loyoClient.prebundler.setupWallet(privateKey);
 
         setKeyPair({
           privateKey,
           publicKey,
         });
+
+        console.debug("useAccountAbstraction.ensureWallet", "publicKey and privateKey generated");
       }
-      else {
-        // Should never happen
-      }
-    }
-    else {
+    };
 
-      const privateKey = await digestStringAsync(CryptoDigestAlgorithm.SHA256, getRandomBytes(64).toString());
-
-      const { publicKey } = await loyoClient.prebundler.setupWallet(privateKey);
-
-      setKeyPair({
-        privateKey,
-        publicKey,
-      });
-    }
+    init();
   }, []);
 
   // Store public en private keys
@@ -60,11 +68,12 @@ const useAccountAbstraction = () => {
       setItemAsync(PUBLIC_KEY, keyPair.publicKey);
       setItemAsync(PRIVATE_KEY, keyPair.privateKey);
     }
+
+    console.log("useAccountAbstract.effect", { keyPair });
   }, [keyPair]);
 
   return {
     keyPair,
-    initWallet,
   };
 };
 

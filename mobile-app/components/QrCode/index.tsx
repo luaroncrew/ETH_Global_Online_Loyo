@@ -1,9 +1,10 @@
-import { FC, useEffect, useState } from "react";
+import { FC, Suspense, useEffect, useState } from "react";
 
 import { Image } from "expo-image";
 
 import useAccountAbstraction from "../../hooks/useAccountAbstraction";
 import { loyoClient } from "../../http";
+import axios from "axios";
 
 const QrCode: FC = () => {
 
@@ -15,13 +16,23 @@ const QrCode: FC = () => {
 
         if (keyPair) {
 
+            console.log({ keyPair });
+
             loyoClient.accounts.getQr(keyPair.publicKey).then(({ qrCode }) => {
+
+                console.debug("QrCode.effect", "retrieved account QR Code");
+
                 setQrCode(qrCode);
+            }).catch((error) => {
+
+                console.debug("QrCode.effect", error);
             });
         }
     }, [keyPair]);
 
-    return <Image source={qrCode} />;
+    if (qrCode === undefined) return <></>;
+
+    return <Image source={qrCode} contentFit="fill" />;
 };
 
 export default QrCode;
