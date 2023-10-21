@@ -3,7 +3,7 @@ import { Axios } from "axios";
 class DefaultLoyoClient extends Axios {
 
     constructor(){
-        super({ baseURL: "https://localhost:8000" });
+        super({ baseURL: "http://localhost:8000" });
     }
 };
 

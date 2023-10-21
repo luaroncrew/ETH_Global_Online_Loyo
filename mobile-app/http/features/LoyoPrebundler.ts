@@ -26,7 +26,7 @@ class LoyoPrebundler {
 
     async setupWallet(privateKey: string) {
 
-        const { data } = await this.client.post<SetupWalletResponse>("/pre-bundler/user-opration/setup-wallet", {
+        const { data } = await this.client.post<SetupWalletResponse>("/pre-bundler/user-operation/setup-wallet", {
             privateKey
         });
 

@@ -4,7 +4,6 @@ import { Image } from "expo-image";
 
 import useAccountAbstraction from "../../hooks/useAccountAbstraction";
 import { loyoClient } from "../../http";
-import axios from "axios";
 
 const QrCode: FC = () => {
 
