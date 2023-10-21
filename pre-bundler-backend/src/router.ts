@@ -7,11 +7,11 @@ const router = createRouter();
 
 router.use("/pre-bundler", preBundlerRouter);
 
-router.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).json({
-    status: "internal-server-error",
-    message: "Internal server error",
-  });
-});
+// router.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
+//   res.status(500).json({
+//     status: "internal-server-error",
+//     message: "Internal server error",
+//   });
+// });
 
 export default router;
