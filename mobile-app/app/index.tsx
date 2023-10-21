@@ -2,24 +2,19 @@ import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
-
-const data = [
-  { name: "Kfet", balance: "14.34572456", hasFidelityCard: false },
-  { name: "Flams", balance: "134.986754", hasFidelityCard: true },
-  { name: "Plouf", balance: "4.8635", hasFidelityCard: false },
-];
+import { shopData } from "../constants/data";
 
 export default function SpendTokensTab() {
   return (
     <SafeAreaView className="flex-1">
       <Link href={"/receive"}>Receive</Link>
       <FlatList
-        data={data}
+        data={Object.values(shopData)}
         renderItem={({ item: shop }) => (
           <Link
             href={{
-              pathname: "/modal",
-              params: shop,
+              pathname: "spend",
+              params: { ...shop, id: shop.name.toUpperCase() },
             }}
             asChild
           >

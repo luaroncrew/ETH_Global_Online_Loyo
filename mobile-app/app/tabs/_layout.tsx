@@ -36,7 +36,7 @@ export default function TabLayout() {
           title: "Receive tokens",
           tabBarIcon: ({ color }) => <TabBarIcon name="qrcode" color={color} />,
           headerRight: () => (
-            <Link href="/modal" asChild>
+            <Link href="/spend" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <FontAwesome
