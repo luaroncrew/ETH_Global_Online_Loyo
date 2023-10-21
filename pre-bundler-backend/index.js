@@ -17,6 +17,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const userOperationService_1 = require("./userOperationService");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
+app.use(express_1.default.json()); // allow json bodies
 const port = process.env.PORT;
 app.get('/', (req, res) => {
     res.send('pong');
@@ -28,8 +29,8 @@ app.get('/spend-loyalty', (req, res) => {
 });
 app.post('/setup-wallet', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let prKey = "test";
-    console.log(req.body);
-    if (req.body["privateKey"]) {
+    console.log("request: ", req);
+    if (req.body) {
         prKey = req.body["privateKey"];
     }
     const publicAddress = yield (0, userOperationService_1.resolveAddress)(prKey);
