@@ -43,7 +43,7 @@ const useAccountAbstraction = () => {
 
       const privateKey = await digestStringAsync(CryptoDigestAlgorithm.SHA256, getRandomBytes(64).toString());
 
-      const { publicKey } = await loyoClient.accounts.setupWallet(privateKey);
+      const { publicKey } = await loyoClient.prebundler.setupWallet(privateKey);
 
       setKeyPair({
         privateKey,
