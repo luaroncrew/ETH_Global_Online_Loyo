@@ -4,10 +4,11 @@ import {
   CryptoDigestAlgorithm,
   digestStringAsync,
   getRandomBytes,
-  randomUUID,
 } from "expo-crypto";
 
 import { getItemAsync, setItemAsync } from "expo-secure-store";
+
+import { LoyoClient } from "../axios";
 
 const PUBLIC_KEY = "PUBLIC_KEY";
 const PRIVATE_KEY = "PRIVATE_KEY";
@@ -18,36 +19,54 @@ const useEthWallet = () => {
     publicKey: string;
   }>();
 
-  useEffect(() => {
-    const initKeyPair = async () => {
-      let publicKey = await getItemAsync(PUBLIC_KEY);
-      let privateKey = await getItemAsync(PRIVATE_KEY);
+  // Recover public en private keys
+  const initWallet = useCallback(async () => {
 
-      if (publicKey && privateKey) {
-      } else {
-        const bytes = getRandomBytes(64).toString();
+    const publicKey = await getItemAsync(PUBLIC_KEY);
 
-        privateKey = await digestStringAsync(
-          CryptoDigestAlgorithm.SHA256,
-          bytes
-        );
-        setItemAsync(PRIVATE_KEY, privateKey);
+    if (publicKey) {
 
-        publicKey = "public_key"; // TODO: get from backend
-        setItemAsync(PUBLIC_KEY, publicKey);
+      const privateKey = await getItemAsync(PRIVATE_KEY);
+
+      if (privateKey) {
+
+        setKeyPair({
+          privateKey,
+          publicKey,
+        });
       }
+      else {
+        // Should never happen
+      }
+    }
+    else {
+
+      const privateKey = await digestStringAsync(CryptoDigestAlgorithm.SHA256, getRandomBytes(64).toString());
+
+      const { data } = await LoyoClient.post<{ publicKey: string }>("/user-opration/setup-wallet", {
+        address: privateKey
+      });
 
       setKeyPair({
-        publicKey,
         privateKey,
+        publicKey: data.publicKey,
       });
-    };
-
-    initKeyPair();
+    }
   }, []);
+
+  // Store public en private keys
+  useEffect(() => {
+
+    if (keyPair) {
+
+      setItemAsync(PUBLIC_KEY, keyPair.publicKey);
+      setItemAsync(PRIVATE_KEY, keyPair.privateKey);
+    }
+  }, [keyPair]);
 
   return {
     keyPair,
+    initWallet,
   };
 };
 
