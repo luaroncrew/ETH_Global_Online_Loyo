@@ -59,7 +59,7 @@ export async function ERC20Transfer(
         erc20.symbol(),
     ]);
 
-    console.log(`Transferring ${amount} of ${symbol}`);
+    console.log(`Transferring ${tokenAmount} of ${symbol}`);
 
     const res = await client.sendUserOperation(
         simpleAccount.execute(
