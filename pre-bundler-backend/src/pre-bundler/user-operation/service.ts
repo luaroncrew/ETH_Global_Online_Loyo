@@ -1,5 +1,5 @@
 import {ethers} from "ethers";
-import {Presets} from "userop";
+import userop from "userop";
 import dotenv from "dotenv";
 
 
@@ -12,32 +12,31 @@ const KFET_LOYO_TOKEN_ADDRESS  = "0x0D138a23541905e963a32eBD227C96ec741408a0"
 // }
 
 
-/**
- * returns the deterministic public key of the SC Wallet that will be deployed with the first userOperation
- * @param privateKey
- */
 export async function resolveAddress(privateKey: string) {
 
     // load env variables
     dotenv.config();
+
+    let _privateKey: string;
+    if (privateKey == "test") {
+        _privateKey = String(process.env.TEST_LOYO_USER_EAO_PRIVATE_KEY);
+    }
+    else {
+        _privateKey = privateKey
+    }
 
     let bundlerUrl: string = "";
     if (process.env.BUNDLER_RPC_URL) {
         bundlerUrl = process.env.BUNDLER_RPC_URL;
     }
 
-    try {
-        const simpleAccount = await Presets.Builder.SimpleAccount.init(
-            new ethers.Wallet(privateKey),
-            bundlerUrl
-        );
-        const address = simpleAccount.getSender();
-        console.log(`SimpleAccount address: ${address}`);
-        return address;
-    }
-    catch {
-        return "0x8D0827DA37129f36C8b18e23792E98097dc2B0B2" // test data
-    }
+    const simpleAccount = await userop.Presets.Builder.SimpleAccount.init(
+        new ethers.Wallet(_privateKey),
+        bundlerUrl
+    );
+    const address = simpleAccount.getSender();
+    console.log(`SimpleAccount address: ${address}`);
+    return address;
 }
 
 async function handleUserOperation() {

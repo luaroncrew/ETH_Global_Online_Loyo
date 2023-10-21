@@ -30,7 +30,7 @@ router.post("/qr", async (req: Request, res: Response) => {
 
   const qrCode = await toDataURL(payload, options);
 
-  res.send({ qrCode });
+  res.json({ qrCode }).send();
 });
 
 export default router;
