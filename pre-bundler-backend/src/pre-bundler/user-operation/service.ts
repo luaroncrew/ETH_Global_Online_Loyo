@@ -17,7 +17,6 @@ const KFET_LOYO_TOKEN_ADDRESS  = "0x0D138a23541905e963a32eBD227C96ec741408a0"
  * @param privateKey
  */
 export async function resolveAddress(privateKey: string) {
-
     // load env variables
     dotenv.config();
 
@@ -35,9 +34,53 @@ export async function resolveAddress(privateKey: string) {
         console.log(`SimpleAccount address: ${address}`);
         return address;
     }
-    catch {
-        return "0x8D0827DA37129f36C8b18e23792E98097dc2B0B2" // test data
+    catch (e) {
+        throw e;
     }
+}
+
+export async function ERC20Transfer(
+    tokenAddress: string,
+    recipientAddress: string,
+    tokenAmount: string,
+    withPaymaster: boolean
+) {
+    const simpleAccount = await Presets.Builder.SimpleAccount.init(
+        new ethers.Wallet(config.signingKey),
+        config.rpcUrl,
+        { paymasterMiddleware, overrideBundlerRpc: opts.overrideBundlerRpc }
+    );
+    const client = await Client.init(config.rpcUrl, {
+        overrideBundlerRpc: opts.overrideBundlerRpc,
+    });
+
+    const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl);
+    const token = ethers.utils.getAddress(tkn);
+    const to = ethers.utils.getAddress(t);
+    const erc20 = new ethers.Contract(token, ERC20_ABI, provider);
+    const [symbol, decimals] = await Promise.all([
+        erc20.symbol(),
+        erc20.decimals(),
+    ]);
+    const amount = ethers.utils.parseUnits(amt, decimals);
+    console.log(`Transferring ${amt} ${symbol}...`);
+
+    const res = await client.sendUserOperation(
+        simpleAccount.execute(
+            erc20.address,
+            0,
+            erc20.interface.encodeFunctionData("transfer", [to, amount])
+        ),
+        {
+            dryRun: opts.dryRun,
+            onBuild: (op) => console.log("Signed UserOperation:", op),
+        }
+    );
+    console.log(`UserOpHash: ${res.userOpHash}`);
+
+    console.log("Waiting for transaction...");
+    const ev = await res.wait();
+    console.log(`Transaction hash: ${ev?.transactionHash ?? null}`);
 }
 
 async function handleUserOperation() {
