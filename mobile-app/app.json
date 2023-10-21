@@ -1,9 +1,10 @@
 {
   "expo": {
-    "name": "mobile-app",
-    "slug": "mobile-app",
+    "name": "loyo",
+    "slug": "loyo",
     "version": "1.0.0",
     "orientation": "portrait",
+    "scheme": "loyo",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
