@@ -1,0 +1,5 @@
+node_modules
+.idea
+pre-bundler-backend.iml
+package-lock.json
+.env
