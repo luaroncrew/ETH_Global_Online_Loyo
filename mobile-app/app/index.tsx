@@ -2,10 +2,12 @@ import { FC } from "react";
 
 import { View } from "react-native"
 
+// import QrCode from "../src/components/QrCode";
+
 const Page: FC = () => {
 
     return <View>
-        Index
+        {/* <QrCode address="test" /> */}
     </View>;
 };
 
