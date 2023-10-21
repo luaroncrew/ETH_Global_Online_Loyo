@@ -12,6 +12,7 @@ const data = [
 export default function SpendTokensTab() {
   return (
     <SafeAreaView className="flex-1">
+      <Link href={"/receive"}>Receive</Link>
       <FlatList
         data={data}
         renderItem={({ item: shop }) => (

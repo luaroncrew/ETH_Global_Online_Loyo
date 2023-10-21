@@ -2,10 +2,10 @@ import { FC, useEffect, useState } from "react";
 
 import { Image } from "expo-image";
 
-import useAccountAbstraction from "../hooks/useAccountAbstraction";
-import { loyoClient } from "../http";
+import useAccountAbstraction from "../../hooks/useAccountAbstraction";
+import { loyoClient } from "../../http";
 
-const LoyoAccountQrCode: FC = () => {
+const QrCode: FC = () => {
 
     const { keyPair } = useAccountAbstraction();
 
@@ -24,4 +24,4 @@ const LoyoAccountQrCode: FC = () => {
     return <Image source={qrCode} />;
 };
 
-export default LoyoAccountQrCode;
+export default QrCode;
