@@ -22,7 +22,7 @@ class LoyoAccounts {
 
     async getQr(publicKey: string) {
 
-        const { data } = await this.client.post<GetQrResponse>("/qr", { address: publicKey });
+        const { data } = await this.client.get<GetQrResponse>(`/account/${publicKey}/qr`);
 
         return data;
     }

@@ -12,11 +12,9 @@ router.get("/:address/balance", async (req: Request, res: Response) => {
   res.send({ balances });
 });
 
-router.post("/qr", async (req: Request, res: Response) => {
+router.get("/:address/qr", async (req: Request, res: Response) => {
 
-  const { body: {
-    address
-  } } = req;
+  const { address } = req.params;
 
   const payload = JSON.stringify({
     address
