@@ -5,10 +5,12 @@ import { resolveAddress, ERC20Transfer } from "./service";
 const router = createRouter();
 
 router.post("/spend-loyalty", async (req: Request, res: Response) => {
-  const { body: {
-    privateKey, recipientAddress, tokenAddress, tokenAmount
+  let { body: {
+    privateKey, recipientAddress, tokenAddress, tokenAmount, withPaymaster
   }} = req;
-  await ERC20Transfer(tokenAddress, recipientAddress, tokenAmount, false, privateKey);
+  withPaymaster = Boolean(withPaymaster);
+  await ERC20Transfer(tokenAddress, recipientAddress, tokenAmount, withPaymaster, privateKey);
+  res.sendStatus(200);
 
 });
 

@@ -1,0 +1,34 @@
+
+request to transfer tokens without the paymaster gas payment
+
+curl --location 'http://localhost:8000/pre-bundler/user-operation/spend-loyalty' \
+--header 'Content-Type: application/json' \
+--data '{
+    "privateKey": "ee32e6648d93e9c52fa2b7fa63b07dbe345626798c2383fdee739a694e13c664",
+    "recipientAddress": "0xB2aF81119A4bFa7E867fd325f59CDc01Ac32bC9A",
+    "tokenAddress": "0x0D138a23541905e963a32eBD227C96ec741408a0",
+    "tokenAmount": "5",
+    "withPaymaster": 0
+}'
+
+
+request to transfer tokens with paymaster gas payment
+
+curl --location 'http://localhost:8000/pre-bundler/user-operation/spend-loyalty' \
+--header 'Content-Type: application/json' \
+--data '{
+    "privateKey": "ee32e6648d93e9c52fa2b7fa63b07dbe345626798c2383fdee739a694e13c664",
+    "recipientAddress": "0xB2aF81119A4bFa7E867fd325f59CDc01Ac32bC9A",
+    "tokenAddress": "0x0D138a23541905e963a32eBD227C96ec741408a0",
+    "tokenAmount": "5",
+    "withPaymaster": 1
+}'
+
+
+resolve the public address from the private key
+
+curl --location 'http://localhost:8000/pre-bundler/user-operation/setup-wallet' \
+--header 'Content-Type: application/json' \
+--data '{
+    "privateKey": "ee32e6648d93e9c52fa2b7fa63b07dbe345626798c2383fdee739a694e13c664"
+}'

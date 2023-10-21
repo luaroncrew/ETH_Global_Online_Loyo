@@ -2,9 +2,22 @@ import {ethers} from "ethers";
 import {Presets, Client} from "userop";
 import dotenv from "dotenv";
 import {loyoABI} from "@/pre-bundler/user-operation/LOYO_BUSINESS_TOKEN_ABI";
+import * as process from "process";
 
 
 const LOYO_BUSINESS_TOKEN_DECIMALS = 18;
+
+const PAYMASTER_DEFAULT_CONTEXT = "payg";
+
+interface PaymasterContext {
+    type: string;
+}
+
+export interface PaymasterParameters {
+    paymasterUrl: string;
+    paymasterContext: PaymasterContext;
+}
+
 
 /**
  * returns the deterministic public key of the SC Wallet that will be deployed with the first userOperation
@@ -36,8 +49,23 @@ export async function ERC20Transfer(
                         // without any private key
 ) {
     // parameters that will be used for the paymaster
-    const paymasterMiddleware = undefined;
+    let paymasterMiddleware = undefined;
     const overrideBundleRpc: string = "";
+
+    if (withPaymaster) {
+        if (process.env.PAYMASTER_LINK != undefined) {
+            const paymaster = {
+                paymasterUrl: process.env.PAYMASTER_LINK,
+                paymasterContext: {
+                    type: PAYMASTER_DEFAULT_CONTEXT
+                }
+            }
+            paymasterMiddleware = Presets.Middleware.verifyingPaymaster(
+                paymaster.paymasterUrl,
+                paymaster.paymasterContext
+            );
+        }
+    }
 
     const bundlerUrl = getBundlerUrl();
     const simpleAccount = await Presets.Builder.SimpleAccount.init(
