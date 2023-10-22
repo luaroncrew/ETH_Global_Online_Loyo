@@ -15,9 +15,17 @@ const ShopBalance: FC<{ shopAddress: string }> = ({ shopAddress }) => {
   useEffect(() => {
     if (keyPair) {
       if (shopAddress) {
-        loyoClient.shops
-          .getBalance(keyPair.publicKey, shopAddress)
-          .then(setShopBalance);
+
+        const fetchBalance = () => loyoClient.shops.getBalance(keyPair.publicKey, shopAddress).then(setShopBalance);
+
+        fetchBalance();
+
+        const timeout = setInterval(fetchBalance, 2500);
+
+        return () => {
+
+          clearTimeout(timeout);
+        }
       }
     }
   }, [keyPair, shopAddress]);
@@ -40,6 +48,7 @@ export default function SpendTokensTab() {
   const [shops, setShops] = useState<GetShopsResponse>();
 
   useEffect(() => {
+
     loyoClient.shops.getMany().then((shops) => {
       setShops(shops);
     });

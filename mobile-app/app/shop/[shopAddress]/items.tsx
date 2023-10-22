@@ -34,7 +34,17 @@ const Page: FC = () => {
       if (shopAddress) {
 
         loyoClient.shops.getOne(shopAddress).then(setShop);
-        loyoClient.shops.getBalance(keyPair.publicKey, shopAddress).then(setShopBalance);
+
+        const fetchBalance = () => loyoClient.shops.getBalance(keyPair.publicKey, shopAddress).then(setShopBalance);
+
+        fetchBalance();
+
+        const timeout = setInterval(fetchBalance, 2500);
+
+        return () => {
+
+          clearInterval(timeout);
+        }
       }
     }
 
@@ -102,10 +112,6 @@ const Page: FC = () => {
                     try {
 
                       await loyoClient.prebundler.spendLoyalty(keyPair.privateKey, shopAddress, shopAddress, clickedShopItem.price.toString());
-
-                      const balance = await loyoClient.shops.getBalance(keyPair.publicKey, shopAddress);
-
-                      setShopBalance(balance);
                     }
                     catch (e) {
                       // ignore
