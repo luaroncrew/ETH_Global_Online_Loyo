@@ -1,9 +1,19 @@
-import { FC, Suspense, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { Image } from "expo-image";
+import { Dimensions, StyleSheet } from "react-native";
 
 import useAccountAbstraction from "../../hooks/useAccountAbstraction";
 import { loyoClient } from "../../http";
+
+const size = Dimensions.get("screen").width;
+
+const styles = StyleSheet.create({
+    image: {
+        height: size,
+        width: size
+    },
+});
 
 const QrCode: FC = () => {
 
@@ -15,13 +25,12 @@ const QrCode: FC = () => {
 
         if (keyPair) {
 
-            console.log({ keyPair });
-
             loyoClient.accounts.getQr(keyPair.publicKey).then(({ qrCode }) => {
 
                 console.debug("QrCode.effect", "retrieved account QR Code");
 
                 setQrCode(qrCode);
+
             }).catch((error) => {
 
                 console.debug("QrCode.effect", error);
@@ -29,9 +38,7 @@ const QrCode: FC = () => {
         }
     }, [keyPair]);
 
-    if (qrCode === undefined) return <></>;
-
-    return <Image source={qrCode} contentFit="fill" />;
+    return <Image style={styles.image} source={qrCode} />;
 };
 
 export default QrCode;

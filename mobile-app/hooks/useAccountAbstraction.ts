@@ -78,7 +78,7 @@ const useAccountAbstraction = () => {
       setItemAsync(PRIVATE_KEY, keyPair.privateKey);
     }
 
-    console.log("useAccountAbstract.effect", { keyPair });
+    console.debug("useAccountAbstract.effect", { keyPair });
   }, [keyPair]);
 
   return {
