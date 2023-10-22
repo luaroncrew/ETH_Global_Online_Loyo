@@ -1,9 +1,12 @@
 import { useLocalSearchParams } from "expo-router";
 import { Button, FlatList, Text, View } from "react-native";
 import LoyoStatusBar from "../../components/LoyoStatusBar";
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import loyoClient from "../../http";
 import { GetBalanceResponse, GetShopResponse } from "../../http/features/LoyoShops";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import useAccountAbstraction from "../../hooks/useAccountAbstraction";
 
 const Page: FC = () => {
 
@@ -11,6 +14,8 @@ const Page: FC = () => {
 
   const [shop, setShop] = useState<GetShopResponse>();
   const [shopBalance, setShopBalance] = useState<GetBalanceResponse>();
+
+  const { keyPair } = useAccountAbstraction();
 
   useEffect(() => {
 
@@ -31,7 +36,25 @@ const Page: FC = () => {
         renderItem={({ item }) => (
           <View className="flex-1 flex flex-row justify-between px-6 py-2">
             <Text className="text-lg font-semibold">{item.name}</Text>
-            <Text className="text-lg text-primary">{item.price}</Text>
+            <TouchableOpacity onPress={async () => {
+
+              if (shopAddress) {
+
+                if (keyPair) {
+
+                  await loyoClient.prebundler.spendLoyalty(keyPair.privateKey, shopAddress, shopAddress, item.price.toString());
+
+                  const balance = await loyoClient.shops.getBalance(shopAddress);
+
+                  setShopBalance(balance);
+                }
+              }
+            }}>
+              <View className="flex flex-row gap-5 items-center">
+                <Text className="text-lg text-primary">{item.price}</Text>
+                <FontAwesome size={20} name="shopping-cart" />
+              </View>
+            </TouchableOpacity>
           </View>
         )}
       />
