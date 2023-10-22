@@ -58,7 +58,7 @@ export const getBalanceForShop = async (publicKey: string, shopAddress: string) 
   }
   catch (e) {
 
-    console.debug("getBalanceForShop", `failed for shop ${shopAddress}`, e);
+    console.debug("getBalanceForShop", `failed for shop ${shopAddress}`);
 
     return {
       balance: "0.0",
