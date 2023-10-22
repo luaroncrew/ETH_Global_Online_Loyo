@@ -1,4 +1,4 @@
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
 import { BarCodeScannedCallback, BarCodeScanner, PermissionStatus } from 'expo-barcode-scanner';
 import LoyoStatusBar from "../../../../components/LoyoStatusBar";
@@ -33,11 +33,20 @@ const Page: FC = () => {
     });
   }, []);
 
-  const onBarCodeScanned: BarCodeScannedCallback = useCallback(({ data }) => {
+  const onBarCodeScanned: BarCodeScannedCallback = useCallback(async ({ data }) => {
 
     if (keyPair && shop && amount) {
 
-      loyoClient.prebundler.spendLoyalty(keyPair.privateKey, data, shop.address, amount);
+      try {
+        await loyoClient.prebundler.spendLoyalty(keyPair.privateKey, data, shop.address, amount);
+      }
+      catch (e) {
+        // ignore
+      }
+      finally {
+        
+        router.back();
+      }
     }
   }, [shop, keyPair, amount]);
 

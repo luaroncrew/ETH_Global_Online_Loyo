@@ -98,13 +98,20 @@ const Page: FC = () => {
 
                   if (keyPair && shopAddress) {
 
-                    await loyoClient.prebundler.spendLoyalty(keyPair.privateKey, shopAddress, shopAddress, clickedShopItem.price.toString());
+                    try {
+                      
+                      await loyoClient.prebundler.spendLoyalty(keyPair.privateKey, shopAddress, shopAddress, clickedShopItem.price.toString());
 
-                    const balance = await loyoClient.shops.getBalance(keyPair.publicKey, shopAddress);
+                      const balance = await loyoClient.shops.getBalance(keyPair.publicKey, shopAddress);
 
-                    setShopBalance(balance);
-
-                    setClickedShopItemIndex(undefined);
+                      setShopBalance(balance);
+                    }
+                    catch (e) {
+                      // ignore
+                    }
+                    finally {
+                      setClickedShopItemIndex(undefined);
+                    }
                   }
                 }} />
 
