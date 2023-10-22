@@ -8,7 +8,7 @@ import { loyoClient } from "../../http";
 
 const size = Dimensions.get("screen").width;
 
-type IQrCode = Omit<ImageProps, "source">
+type IQrCode = Omit<ImageProps, "source">;
 
 const QrCode: FC<IQrCode> = (props) => {
 
