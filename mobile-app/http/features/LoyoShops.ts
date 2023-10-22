@@ -23,9 +23,9 @@ class LoyoShops {
         return data;
     }
 
-    async getBalance(shopAddress: string) {
+    async getBalance(publicKey: string, shopAddress: string) {
 
-        const { data } = await DefaultLoyoClient.get<GetBalanceResponse>(`/shop/${shopAddress}/balance`);
+        const { data } = await DefaultLoyoClient.get<GetBalanceResponse>(`/shop/${shopAddress}/balance/${publicKey}`);
 
         return data;
     }

@@ -1,6 +1,6 @@
 import DefaultLoyoClient from "../DefaultLoyoClient";
 
-type GetBalanceResponse = Array<{ name: string, balance: number }>;
+type GetBalanceResponse = Array<{ balance: string, fidelity: Array<{}> }>;
 type GetQrResponse = { qrCode: string };
 
 class LoyoAccounts {

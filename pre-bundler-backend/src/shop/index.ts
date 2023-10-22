@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 import { createRouter } from "@/utils/create-router";
-import { shopBalances, shops } from "./service";
+import { getBalanceForShop, shops } from "./service";
 
 const router = createRouter();
 
@@ -10,17 +10,19 @@ router.get("/", async (req: Request, res: Response) => {
   res.send(Object.values(shops));
 });
 
-router.get("/:address", async (req: Request, res: Response) => {
-  const { address } = req.params;
+router.get("/:shopAddress", async (req: Request, res: Response) => {
+  const { shopAddress } = req.params;
 
-  res.send(shops[address as keyof typeof shopBalances]);
+  res.send(shops[shopAddress as keyof typeof shops]);
 });
 
-router.get("/:address/balance", async (req: Request, res: Response) => {
+router.get("/:shopAddress/balance/:publicKey", async (req: Request, res: Response) => {
 
-  const { address } = req.params;
+  const { shopAddress, publicKey } = req.params;
 
-  res.send(shopBalances[address as keyof typeof shopBalances]);
+  const balance = await getBalanceForShop(publicKey, shopAddress);
+
+  res.send(balance);
 });
 
 export default router;

@@ -2,14 +2,16 @@ import { Request, Response } from "express";
 import { QRCodeRenderersOptions, toDataURL } from "qrcode";
 
 import { createRouter } from "@/utils/create-router";
-import { getBalancesOfAccounts } from "./service";
+import { getBalanceForShops } from "@/shop/service";
 
 const router = createRouter();
 
 router.get("/:address/balance", async (req: Request, res: Response) => {
   const { address } = req.params;
-  const balances = await getBalancesOfAccounts(address);
-  res.send({ balances });
+
+  const balance = await getBalanceForShops(address);
+
+  res.send(balance);
 });
 
 router.get("/:address/qr", async (req: Request, res: Response) => {

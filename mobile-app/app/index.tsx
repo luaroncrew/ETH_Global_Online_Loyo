@@ -5,18 +5,25 @@ import { Link } from "expo-router";
 import { FC, useEffect, useState } from "react";
 import loyoClient from "../http";
 import { GetBalanceResponse, GetShopsResponse } from "../http/features/LoyoShops";
+import useAccountAbstraction from "../hooks/useAccountAbstraction";
 
 const ShopBalance: FC<{ shopAddress: string }> = ({ shopAddress }) => {
+
+  const { keyPair } = useAccountAbstraction();
 
   const [shopBalance, setShopBalance] = useState<GetBalanceResponse>();
 
   useEffect(() => {
 
-    if (shopAddress) {
+    if (keyPair) {
 
-      loyoClient.shops.getBalance(shopAddress).then(setShopBalance);
+      if (shopAddress) {
+
+        loyoClient.shops.getBalance(keyPair.publicKey, shopAddress).then(setShopBalance);
+      }
     }
-  }, [shopAddress]);
+
+  }, [keyPair, shopAddress]);
 
   return <View className="flex flex-row items-center gap-5">
     <Text className="text-base text-primary">{shopBalance?.balance}</Text>

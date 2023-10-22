@@ -19,12 +19,16 @@ const Page: FC = () => {
 
   useEffect(() => {
 
-    if (shopAddress) {
+    if (keyPair) {
 
-      loyoClient.shops.getOne(shopAddress).then(setShop);
-      loyoClient.shops.getBalance(shopAddress).then(setShopBalance);
+      if (shopAddress) {
+
+        loyoClient.shops.getOne(shopAddress).then(setShop);
+        loyoClient.shops.getBalance(keyPair.publicKey, shopAddress).then(setShopBalance);
+      }
     }
-  }, [shopAddress]);
+
+  }, [keyPair, shopAddress]);
 
   return (
     <View className="flex-1 items-center pt-6">
@@ -38,13 +42,13 @@ const Page: FC = () => {
             <Text className="text-lg font-semibold">{item.name}</Text>
             <TouchableOpacity onPress={async () => {
 
-              if (shopAddress) {
+              if (keyPair) {
 
-                if (keyPair) {
+                if (shopAddress) {
 
                   await loyoClient.prebundler.spendLoyalty(keyPair.privateKey, shopAddress, shopAddress, item.price.toString());
 
-                  const balance = await loyoClient.shops.getBalance(shopAddress);
+                  const balance = await loyoClient.shops.getBalance(keyPair.publicKey, shopAddress);
 
                   setShopBalance(balance);
                 }
