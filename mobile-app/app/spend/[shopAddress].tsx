@@ -1,7 +1,7 @@
-import { Stack, useLocalSearchParams } from "expo-router";
-import { Button, FlatList, Pressable, Text, View } from "react-native";
+import { Link, Stack, useLocalSearchParams } from "expo-router";
+import { FlatList, Pressable, Text, TextInput, View } from "react-native";
 import LoyoStatusBar from "../../components/LoyoStatusBar";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import loyoClient from "../../http";
 import { GetBalanceResponse, GetShopResponse } from "../../http/features/LoyoShops";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -14,7 +14,16 @@ const Page: FC = () => {
   const [shop, setShop] = useState<GetShopResponse>();
   const [shopBalance, setShopBalance] = useState<GetBalanceResponse>();
 
-  const [clickedShopItem, setClickedShopItem] = useState<number>();
+  const [giveQuantity, setGiveQuantity] = useState<string>();
+  const [clickedShopItemIndex, setClickedShopItemIndex] = useState<number>();
+
+  const clickedShopItem = useMemo(() => {
+
+    if (clickedShopItemIndex)
+      return shop?.items[clickedShopItemIndex];
+
+    return undefined;
+  }, [shop, clickedShopItemIndex]);
 
   const { keyPair } = useAccountAbstraction();
 
@@ -35,12 +44,16 @@ const Page: FC = () => {
     <View className="flex-1 items-center">
       <Stack.Screen options={{ headerTitle: shop?.name }} />
       <Text className="text-xl font-bold my-10">{shopBalance?.balance} Credits</Text>
+      <View className="flex flex-col">
+        <TextInput onChangeText={setGiveQuantity} placeholder="Quantity" />
+        <Link href={{ pathname: "give/[amount]", params: { amount: giveQuantity } }} />
+      </View>
       <FlatList
         className="w-full"
         data={shop?.items}
         renderItem={({ item, index }) => (
           <Pressable className="flex-1 flex flex-row justify-between px-6 py-2" onPress={async () => {
-            setClickedShopItem(index);
+            setClickedShopItemIndex(index);
           }}>
             <Text className="text-lg font-semibold">{item.name}</Text>
             <View className="flex flex-row gap-5 items-center">
@@ -52,27 +65,22 @@ const Page: FC = () => {
       />
       {clickedShopItem &&
         <View className="flex flex-row mx-auto">
-          <Button title="Spend" onPress={async () => {
 
-            if (keyPair) {
+          <Pressable onPress={async () => {
 
-              if (shopAddress) {
+            if (keyPair && shopAddress) {
 
-                const item = shop?.items[clickedShopItem];
+              await loyoClient.prebundler.spendLoyalty(keyPair.privateKey, shopAddress, shopAddress, clickedShopItem.price.toString());
 
-                if (item) {
+              const balance = await loyoClient.shops.getBalance(keyPair.publicKey, shopAddress);
 
-                  await loyoClient.prebundler.spendLoyalty(keyPair.privateKey, shopAddress, shopAddress, item.price.toString());
+              setShopBalance(balance);
 
-                  const balance = await loyoClient.shops.getBalance(keyPair.publicKey, shopAddress);
-
-                  setShopBalance(balance);
-
-                  setClickedShopItem(undefined);
-                }
-              }
+              setClickedShopItemIndex(undefined);
             }
-          }} />
+          }}>
+            <Text>Buy ${clickedShopItem.name} for ${clickedShopItem.price} credits</Text>
+          </Pressable>
         </View>
       }
       <LoyoStatusBar />
