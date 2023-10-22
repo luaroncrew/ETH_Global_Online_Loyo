@@ -1,5 +1,5 @@
 import { Stack, router, useLocalSearchParams } from "expo-router";
-import { Text, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { BarCodeScannedCallback, BarCodeScanner, PermissionStatus } from 'expo-barcode-scanner';
 import LoyoStatusBar from "../../../../components/LoyoStatusBar";
 import React, { FC, useCallback, useEffect, useState } from "react";
@@ -51,7 +51,7 @@ const Page: FC = () => {
   }, [shop, keyPair, amount]);
 
   return (
-    <View className="flex-1 items-center">
+    <SafeAreaView className="flex-1 items-center">
       <Stack.Screen options={{ headerTitle: shop?.name }} />
 
       <Text className="text-xl font-bold my-10">Send {amount} credits</Text>
@@ -59,7 +59,7 @@ const Page: FC = () => {
       {hasPermission ? <BarCodeScanner onBarCodeScanned={onBarCodeScanned} /> : <Text>Permission denied to camera</Text>}
 
       <LoyoStatusBar />
-    </View>
+    </SafeAreaView>
   );
 };
 

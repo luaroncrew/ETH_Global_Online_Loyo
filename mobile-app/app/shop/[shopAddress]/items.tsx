@@ -6,6 +6,7 @@ import loyoClient from "../../../http";
 import { GetBalanceResponse, GetShopResponse } from "../../../http/features/LoyoShops";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import useAccountAbstraction from "../../../hooks/useAccountAbstraction";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Page: FC = () => {
 
@@ -40,7 +41,7 @@ const Page: FC = () => {
   }, [keyPair, shopAddress]);
 
   return (
-    <View className="flex-1 items-center justify-center">
+    <SafeAreaView className="flex-1 items-center justify-center">
 
       <Stack.Screen options={{ headerTitle: shop?.name }} />
 
@@ -129,7 +130,7 @@ const Page: FC = () => {
 
       </View>
       <LoyoStatusBar />
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -1,12 +1,12 @@
 import { FC } from "react";
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import QrCode from "../../components/QrCode";
 import LoyoStatusBar from "../../components/LoyoStatusBar";
 
 const Page: FC = () => {
   return (
-    <View className="flex-1 flex-grow ">
+    <SafeAreaView className="flex-1 flex-grow ">
       <LinearGradient
         colors={["#0099F8", "#fff"]}
         className="flex-1 items-center"
@@ -21,7 +21,7 @@ const Page: FC = () => {
         </Text>
         <LoyoStatusBar />
       </LinearGradient>
-    </View>
+    </SafeAreaView>
   );
 };
 
