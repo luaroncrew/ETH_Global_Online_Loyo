@@ -2,9 +2,34 @@ import { FlatList, Pressable, Text, View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import loyoClient from "../http";
-import { GetShopsResponse } from "../http/features/LoyoShops";
+import { GetBalanceResponse, GetShopsResponse } from "../http/features/LoyoShops";
+
+const ShopBalance: FC<{ shopAddress: string }> = ({ shopAddress }) => {
+
+  const [shopBalance, setShopBalance] = useState<GetBalanceResponse>();
+
+  useEffect(() => {
+
+    if (shopAddress) {
+
+      loyoClient.shops.getBalance(shopAddress).then(setShopBalance);
+    }
+  }, [shopAddress]);
+
+  return <View className="flex flex-row items-center">
+    <FontAwesome
+      size={20}
+      name="credit-card"
+      style={{
+        marginRight: 16,
+        opacity: shopBalance?.fidelity?.length ? 1 : 0.1,
+      }}
+    />
+    <Text className="text-base text-primary">{shopBalance?.balance}</Text>
+  </View>
+}
 
 export default function SpendTokensTab() {
 
@@ -31,17 +56,7 @@ export default function SpendTokensTab() {
             >
               <Text className="text-lg font-semibold">{shop.name}</Text>
 
-              <View className="flex flex-row items-center">
-                <FontAwesome
-                  size={20}
-                  name="credit-card"
-                  style={{
-                    marginRight: 16,
-                    opacity: shop.hasFidelityCard ? 1 : 0.1,
-                  }}
-                />
-                <Text className="text-base text-primary">{shop.balance}</Text>
-              </View>
+              <ShopBalance shopAddress={shop.address} />
             </Pressable>
           </Link>
         )}
