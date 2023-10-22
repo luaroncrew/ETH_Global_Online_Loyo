@@ -11,9 +11,7 @@ const RootLayout = () => {
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="receive" options={{ presentation: "modal" }} />
-      <Stack.Screen
-        name="spend"
-        options={{ presentation: "modal", headerShown: false }}
+      <Stack.Screen name="spend" options={{ presentation: "modal" }}
       />
     </Stack>
   );

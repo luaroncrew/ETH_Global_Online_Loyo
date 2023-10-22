@@ -1,9 +1,10 @@
 import { useLocalSearchParams } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { FlatList, Platform, StyleSheet, Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import { shopData } from "../constants/data";
+import LoyoStatusBar from "../components/LoyoStatusBar";
+import { FC } from "react";
 
-export default function ModalScreen() {
+const Page: FC = () => {
   const shop = useLocalSearchParams();
 
   return (
@@ -22,7 +23,9 @@ export default function ModalScreen() {
       />
 
       {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
+      <LoyoStatusBar />
     </View>
   );
-}
+};
+
+export default Page;

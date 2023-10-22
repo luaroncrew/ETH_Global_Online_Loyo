@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 
-import { Image } from "expo-image";
+import { Image, ImageProps } from "expo-image";
 import { Dimensions, StyleSheet } from "react-native";
 
 import useAccountAbstraction from "../../hooks/useAccountAbstraction";
@@ -8,14 +8,9 @@ import { loyoClient } from "../../http";
 
 const size = Dimensions.get("screen").width;
 
-const styles = StyleSheet.create({
-    image: {
-        height: size,
-        width: size
-    },
-});
+type IQrCode = Omit<ImageProps, "source">
 
-const QrCode: FC = () => {
+const QrCode: FC<IQrCode> = (props) => {
 
     const { keyPair } = useAccountAbstraction();
 
@@ -38,7 +33,7 @@ const QrCode: FC = () => {
         }
     }, [keyPair]);
 
-    return <Image style={styles.image} source={qrCode} />;
+    return <Image {...props} source={qrCode} />;
 };
 
 export default QrCode;

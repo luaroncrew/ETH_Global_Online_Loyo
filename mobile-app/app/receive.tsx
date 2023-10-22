@@ -1,19 +1,24 @@
-import { Link, router } from "expo-router";
-import { FC, useCallback } from "react";
-import { Platform, View } from "react-native";
+import { FC } from "react";
+import { View, Text } from "react-native";
 
 import QrCode from "../components/QrCode";
-import { StatusBar } from "expo-status-bar";
+import LoyoStatusBar from "../components/LoyoStatusBar";
 
 const Page: FC = () => {
 
-    return <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    return <View className="flex flex-grow align-middle justify-center">
 
-        {router.canGoBack() && <Link href="../">Dismiss</Link>}
+        <View className="mb-8">
+            <Text className="text-3xl font-bold mb-4">
+                Receive loyalties !
+            </Text>
+        </View>
 
-        <QrCode />
+        <View className="block m-auto">
+            <QrCode className="w-48 h-48" />
+        </View>
 
-        <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
+        <LoyoStatusBar />
     </View>;
 };
 

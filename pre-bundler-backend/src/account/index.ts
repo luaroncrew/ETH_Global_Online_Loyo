@@ -22,8 +22,8 @@ router.get("/:address/qr", async (req: Request, res: Response) => {
 
   const options: QRCodeRenderersOptions = {
     color: {
-      dark: "#010599FF",
-      light: "#FFBF60FF"
+      dark: "#000000",
+      light: "#FFFFFF"
     },
     errorCorrectionLevel: "H",
   };
