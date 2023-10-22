@@ -5,16 +5,9 @@ type SetupWalletResponse = { publicKey: string };
 
 class LoyoPrebundler {
 
-    private client: DefaultLoyoClient;
-
-    constructor() {
-
-        this.client = new DefaultLoyoClient();
-    }
-
     async spendLoyalty(privateKey: string, recipientAddress: string, tokenAddress: string, tokenAmount: string) {
 
-        const { data } = await this.client.post<SpendLoyaltyResponse>("/pre-bundler/user-operation/spend-loyalty", {
+        const { data } = await DefaultLoyoClient.post<SpendLoyaltyResponse>("/pre-bundler/user-operation/spend-loyalty", {
             privateKey,
             recipientAddress,
             tokenAddress,
@@ -26,7 +19,7 @@ class LoyoPrebundler {
 
     async setupWallet(privateKey: string) {
 
-        const { data } = await this.client.post<SetupWalletResponse>("/pre-bundler/user-operation/setup-wallet", {
+        const { data } = await DefaultLoyoClient.post<SetupWalletResponse>("/pre-bundler/user-operation/setup-wallet", {
             privateKey
         });
 

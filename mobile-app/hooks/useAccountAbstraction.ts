@@ -48,8 +48,9 @@ const useAccountAbstraction = () => {
       }
       else {
 
-        const privateKey = "730f75dafd73e047b86acb2dbd74e75dcb93272fa084a9082848f2341aa1abb6";
-        // const privateKey = await digestStringAsync(CryptoDigestAlgorithm.SHA256, getRandomBytes(64).toString());
+        const raw = getRandomBytes(32)
+
+        const privateKey = await digestStringAsync(CryptoDigestAlgorithm.SHA256, raw.toString());
 
         console.debug("useAccountAbstraction.ensureWallet", "trying to generate a public key");
 
