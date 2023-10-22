@@ -15,16 +15,17 @@ router.get("/:address/balance", async (req: Request, res: Response) => {
 });
 
 router.get("/:address/qr", async (req: Request, res: Response) => {
+
   const { address } = req.params;
 
   const payload = JSON.stringify({
-    address,
+    address
   });
 
   const options: QRCodeRenderersOptions = {
     color: {
       dark: "#000000",
-      light: "#0000",
+      light: "#FFFFFF"
     },
     errorCorrectionLevel: "H",
   };

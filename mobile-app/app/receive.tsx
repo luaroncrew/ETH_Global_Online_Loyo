@@ -5,19 +5,21 @@ import QrCode from "../components/QrCode";
 import LoyoStatusBar from "../components/LoyoStatusBar";
 
 const Page: FC = () => {
-  return (
-    <View className="flex flex-grow items-center">
-      <Text className="mt-14 mb-8 text-3xl font-bold text-primary">
-        Receive loyalties !
-      </Text>
 
-      <QrCode className="w-48 h-48" />
-      <Text className="mt-4 text-lg text-center px-6">
-        Scan this QR Code to give your address and receive fidelity tokens
-      </Text>
-      <LoyoStatusBar />
-    </View>
-  );
+    return <View className="flex flex-grow align-middle justify-center">
+
+        <View className="mb-8">
+            <Text className="text-3xl font-bold mb-4">
+                Receive loyalties !
+            </Text>
+        </View>
+
+        <View className="block m-auto">
+            <QrCode className="w-48 h-48" />
+        </View>
+
+        <LoyoStatusBar />
+    </View>;
 };
 
 export default Page;
