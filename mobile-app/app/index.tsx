@@ -3,12 +3,9 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
 import { FC, useEffect, useState } from "react";
-import loyoClient from "../http";
-import {
-  GetBalanceResponse,
-  GetShopsResponse,
-} from "../http/features/LoyoShops";
 import useAccountAbstraction from "../hooks/useAccountAbstraction";
+import loyoClient from "../http";
+import { GetBalanceResponse, GetShopsResponse } from "../http/features/LoyoShops";
 
 const ShopBalance: FC<{ shopAddress: string }> = ({ shopAddress }) => {
   const { keyPair } = useAccountAbstraction();
@@ -53,7 +50,7 @@ export default function SpendTokensTab() {
       <Text className="text-3xl text-center font-bold mt-4 mb-8">
         Welcome on Loyo
       </Text>
-      <Link href={"/receive"} className="z-10 absolute bottom-5 right-5">
+      <Link href={"/account/receive"} className="z-10 absolute bottom-5 right-5">
         <View className="h-20 w-20 bg-white rounded-full shadow-md flex items-center justify-center">
           <FontAwesome size={48} name="qrcode" />
         </View>
@@ -63,7 +60,7 @@ export default function SpendTokensTab() {
         renderItem={({ item: shop }) => (
           <Link
             href={{
-              pathname: "/spend/[shopAddress]",
+              pathname: "/shop/[shopAddress]/items",
               params: { shopAddress: shop.address },
             }}
             asChild

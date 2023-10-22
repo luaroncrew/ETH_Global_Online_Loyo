@@ -1,9 +1,8 @@
 import { FC } from "react";
 import { View, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-
-import QrCode from "../components/QrCode";
-import LoyoStatusBar from "../components/LoyoStatusBar";
+import QrCode from "../../components/QrCode";
+import LoyoStatusBar from "../../components/LoyoStatusBar";
 
 const Page: FC = () => {
   return (

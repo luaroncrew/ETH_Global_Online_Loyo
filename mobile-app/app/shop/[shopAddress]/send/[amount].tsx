@@ -1,11 +1,11 @@
 import { Stack, useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
 import { BarCodeScannedCallback, BarCodeScanner, PermissionStatus } from 'expo-barcode-scanner';
-import LoyoStatusBar from "../../../components/LoyoStatusBar";
+import LoyoStatusBar from "../../../../components/LoyoStatusBar";
 import React, { FC, useCallback, useEffect, useState } from "react";
-import loyoClient from "../../../http";
-import { GetShopResponse } from "../../../http/features/LoyoShops";
-import useAccountAbstraction from "../../../hooks/useAccountAbstraction";
+import loyoClient from "../../../../http";
+import { GetShopResponse } from "../../../../http/features/LoyoShops";
+import useAccountAbstraction from "../../../../hooks/useAccountAbstraction";
 
 const Page: FC = () => {
 
@@ -45,7 +45,7 @@ const Page: FC = () => {
     <View className="flex-1 items-center">
       <Stack.Screen options={{ headerTitle: shop?.name }} />
 
-      <Text className="text-xl font-bold my-10">{amount} Credits</Text>
+      <Text className="text-xl font-bold my-10">Send {amount} credits</Text>
 
       {hasPermission ? <BarCodeScanner onBarCodeScanned={onBarCodeScanned} /> : <Text>Permission denied to camera</Text>}
 
