@@ -18,16 +18,15 @@ const ShopBalance: FC<{ shopAddress: string }> = ({ shopAddress }) => {
     }
   }, [shopAddress]);
 
-  return <View className="flex flex-row items-center">
+  return <View className="flex flex-row items-center gap-5">
+    <Text className="text-base text-primary">{shopBalance?.balance}</Text>
     <FontAwesome
       size={20}
       name="credit-card"
       style={{
-        marginRight: 16,
-        opacity: shopBalance?.fidelity?.length ? 1 : 0.1,
+        opacity: shopBalance?.fidelity?.length ? 1 : 0.2
       }}
     />
-    <Text className="text-base text-primary">{shopBalance?.balance}</Text>
   </View>
 }
 
@@ -51,11 +50,10 @@ export default function SpendTokensTab() {
         renderItem={({ item: shop }) => (
           <Link href={{ pathname: "/spend/[shopAddress]", params: { shopAddress: shop.address } }} asChild>
             <Pressable
-              className="flex flex-row justify-between py-4 px-6 items-baseline"
+              className="flex-1 flex flex-row justify-between px-6 py-2"
               style={{ borderColor: "rgba(0,0,0,0.5)" }}
             >
               <Text className="text-lg font-semibold">{shop.name}</Text>
-
               <ShopBalance shopAddress={shop.address} />
             </Pressable>
           </Link>
