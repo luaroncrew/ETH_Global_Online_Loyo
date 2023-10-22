@@ -88,53 +88,50 @@ const Page: FC = () => {
         )}
       />
 
-      <View className="flex flex-row justify-center items-center">
+      <Modal animationType="fade" visible={clickedShopItemIndex !== undefined} onRequestClose={() => {
+        setClickedShopItemIndex(undefined);
+      }}>
 
-        <Modal animationType="fade" visible={clickedShopItemIndex !== undefined} onRequestClose={() => {
-          setClickedShopItemIndex(undefined);
-        }}>
+        {clickedShopItem && <>
 
-          {clickedShopItem && <>
+          <SafeAreaView className="flex">
 
-            <View className="flex">
-
-              <View className="">
-                <Text className="block text-3xl">You want to buy {clickedShopItem?.name}</Text>
-                <Text className="text-lg">{clickedShopItem?.price} credits will be deducted from your balance.</Text>
-              </View>
-
-              <View className="flex flex-row">
-
-                <Button title="Spend" onPress={async () => {
-
-                  if (keyPair && shopAddress) {
-
-                    try {
-
-                      await loyoClient.prebundler.spendLoyalty(keyPair.privateKey, shopAddress, shopAddress, clickedShopItem.price.toString());
-                    }
-                    catch (e) {
-                      // ignore
-                    }
-                    finally {
-                      setClickedShopItemIndex(undefined);
-                    }
-                  }
-                }} />
-
-                <Button
-                  title="Cancel"
-                  onPress={() => {
-
-                    setClickedShopItemIndex(undefined);
-                  }} />
-              </View>
+            <View className="">
+              <Text className="block text-3xl">You want to buy {clickedShopItem?.name}</Text>
+              <Text className="text-lg">{clickedShopItem?.price} credits will be deducted from your balance.</Text>
             </View>
-          </>}
 
-        </Modal>
+            <View className="flex flex-row">
 
-      </View>
+              <Button title="Spend" onPress={async () => {
+
+                if (keyPair && shopAddress) {
+
+                  try {
+
+                    await loyoClient.prebundler.spendLoyalty(keyPair.privateKey, shopAddress, shopAddress, clickedShopItem.price.toString());
+                  }
+                  catch (e) {
+                    // ignore
+                  }
+                  finally {
+                    setClickedShopItemIndex(undefined);
+                  }
+                }
+              }} />
+
+              <Button
+                title="Cancel"
+                onPress={() => {
+
+                  setClickedShopItemIndex(undefined);
+                }} />
+            </View>
+          </SafeAreaView>
+        </>}
+
+      </Modal>
+
       <LoyoStatusBar />
     </SafeAreaView>
   );
