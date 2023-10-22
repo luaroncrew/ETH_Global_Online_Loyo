@@ -1,15 +1,30 @@
-import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
+import { FlatList, Pressable, Text, View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
-import { shopData } from "../constants/data";
+import { useEffect, useState } from "react";
+import loyoClient from "../http";
+import { GetShopsResponse } from "../http/features/LoyoShops";
 
 export default function SpendTokensTab() {
+
+  const [shops, setShops] = useState<GetShopsResponse>();
+
+  useEffect(() => {
+
+    loyoClient.shops.getMany().then((shops) => {
+
+      setShops(shops);
+    });
+  }, []);
+
+  console.debug(shops);
+
   return (
     <SafeAreaView className="flex-1">
       <Link href={"/receive"}>Receive</Link>
       <FlatList
-        data={Object.values(shopData)}
+        data={shops}
         renderItem={({ item: shop }) => (
           <Link
             href={{

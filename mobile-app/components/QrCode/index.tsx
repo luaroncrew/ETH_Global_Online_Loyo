@@ -8,6 +8,13 @@ import { loyoClient } from "../../http";
 
 const size = Dimensions.get("screen").width;
 
+const styles = StyleSheet.create({
+    image: {
+        width: size,
+        height: size
+    }
+})
+
 type IQrCode = Omit<ImageProps, "source">;
 
 const QrCode: FC<IQrCode> = (props) => {
@@ -33,7 +40,7 @@ const QrCode: FC<IQrCode> = (props) => {
         }
     }, [keyPair]);
 
-    return <Image {...props} source={qrCode} />;
+    return <Image style={styles.image} {...props} source={qrCode} />;
 };
 
 export default QrCode;
