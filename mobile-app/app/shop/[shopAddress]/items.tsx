@@ -1,5 +1,5 @@
-import { Link, Stack, router, useLocalSearchParams } from "expo-router";
-import { Button, FlatList, Modal, Pressable, Text, TextInput, View } from "react-native";
+import { Stack, router, useLocalSearchParams } from "expo-router";
+import { Button, FlatList, Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
 import LoyoStatusBar from "../../../components/LoyoStatusBar";
 import React, { FC, useEffect, useMemo, useState } from "react";
 import loyoClient from "../../../http";
@@ -52,7 +52,7 @@ const Page: FC = () => {
 
         <TextInput keyboardType="numeric" onChangeText={setGiveTokenQuantity} placeholder="Quantity" />
 
-        <Button disabled={giveTokenQuantity === undefined} title="Give" onPress={() => {
+        <Button disabled={Boolean(giveTokenQuantity) === false} title="Give" onPress={() => {
           router.push({ pathname: "/shop/[shopAddress]/send/[amount]", params: { shopAddress, amount: giveTokenQuantity } })
         }} />
       </View>
@@ -61,7 +61,7 @@ const Page: FC = () => {
         className="w-full"
         data={shop?.items}
         renderItem={({ item, index }) => (
-          <Pressable className="flex flex-row justify-between px-6 py-2" onPress={async () => {
+          <TouchableOpacity className="flex flex-row justify-between px-6 py-2" onPress={async () => {
             setClickedShopItemIndex(index);
           }}>
 
@@ -73,7 +73,7 @@ const Page: FC = () => {
 
               <FontAwesome size={20} name="shopping-cart" />
             </View>
-          </Pressable>
+          </TouchableOpacity>
         )}
       />
 
@@ -99,7 +99,7 @@ const Page: FC = () => {
                   if (keyPair && shopAddress) {
 
                     try {
-                      
+
                       await loyoClient.prebundler.spendLoyalty(keyPair.privateKey, shopAddress, shopAddress, clickedShopItem.price.toString());
 
                       const balance = await loyoClient.shops.getBalance(keyPair.publicKey, shopAddress);

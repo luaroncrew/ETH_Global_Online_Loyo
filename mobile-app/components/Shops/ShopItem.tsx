@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { Pressable, Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link } from "expo-router";
 
@@ -18,7 +18,7 @@ const ShopItem: FC<{ shop: IShop }> = ({ shop }) => {
         }}
         asChild
     >
-        <Pressable
+        <TouchableOpacity
             className="flex flex-row justify-between py-4 px-6 items-baseline"
             style={{ borderColor: "rgba(0,0,0,0.5)" }}
         >
@@ -35,7 +35,7 @@ const ShopItem: FC<{ shop: IShop }> = ({ shop }) => {
                 />
                 <Text className="text-base text-primary">{shop.balance}</Text>
             </View>
-        </Pressable>
+        </TouchableOpacity>
     </Link>
 };
 

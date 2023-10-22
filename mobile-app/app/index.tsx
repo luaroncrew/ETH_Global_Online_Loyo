@@ -1,7 +1,7 @@
-import { FlatList, Pressable, Text, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { FC, useEffect, useState } from "react";
 import useAccountAbstraction from "../hooks/useAccountAbstraction";
 import loyoClient from "../http";
@@ -58,21 +58,18 @@ export default function SpendTokensTab() {
       <FlatList
         data={shops}
         renderItem={({ item: shop }) => (
-          <Link
-            href={{
+          <TouchableOpacity onPress={() => {
+            router.push({
               pathname: "/shop/[shopAddress]/items",
               params: { shopAddress: shop.address },
-            }}
-            asChild
+            });
+          }}
+            className="flex-1 flex flex-row justify-between px-6 py-2"
+            style={{ borderColor: "rgba(0,0,0,0.5)" }}
           >
-            <Pressable
-              className="flex-1 flex flex-row justify-between px-6 py-2"
-              style={{ borderColor: "rgba(0,0,0,0.5)" }}
-            >
-              <Text className="text-xl font-semibold">{shop.name}</Text>
-              <ShopBalance shopAddress={shop.address} />
-            </Pressable>
-          </Link>
+            <Text className="text-xl font-semibold">{shop.name}</Text>
+            <ShopBalance shopAddress={shop.address} />
+          </TouchableOpacity>
         )}
       />
     </SafeAreaView>
