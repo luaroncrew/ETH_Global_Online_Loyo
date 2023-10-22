@@ -16,3 +16,8 @@ ee32e6648d93e9c52fa2b7fa63b07dbe345626798c2383fdee739a694e13c664
 
 public key:
 0x262eA05900e3D7Aae7d1019c9e1d42b6BDCee3e5
+
+
+
+deployed table:
+https://studio.tableland.xyz/kirill/loyo_transactions/deployments/default/loyo_token_transactions

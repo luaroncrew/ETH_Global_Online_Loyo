@@ -21,4 +21,5 @@ router.post("/setup-wallet", async (req: Request, res: Response) => {
   res.json({ publicKey: publicAddress });
 });
 
+
 export default router;
