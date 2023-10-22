@@ -18,21 +18,13 @@ export default function SpendTokensTab() {
     });
   }, []);
 
-  console.debug(shops);
-
   return (
     <SafeAreaView className="flex-1">
       <Link href={"/receive"}>Receive</Link>
       <FlatList
         data={shops}
         renderItem={({ item: shop }) => (
-          <Link
-            href={{
-              pathname: "spend",
-              params: { ...shop, id: shop.name.toUpperCase() },
-            }}
-            asChild
-          >
+          <Link href={{ pathname: "/spend/[shopAddress]", params: { shopAddress: shop.address } }} asChild>
             <Pressable
               className="flex flex-row justify-between py-4 px-6 items-baseline"
               style={{ borderColor: "rgba(0,0,0,0.5)" }}

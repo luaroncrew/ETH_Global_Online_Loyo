@@ -1,6 +1,7 @@
 import DefaultLoyoClient from "../DefaultLoyoClient";
 
 interface IShop {
+    address: string,
     name: string,
     balance: string,
     hasFidelityCard: boolean,

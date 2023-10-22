@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const shop = {
+  address: "shopaddress",
   name: "Kfet",
   balance: "14.34572456",
   hasFidelityCard: false,
@@ -16,6 +17,7 @@ export const shop = {
 export const shops = [
   shop,
   {
+    address: "shopaddress",
     name: "Flams",
     balance: "134.986754",
     hasFidelityCard: true,
@@ -26,6 +28,7 @@ export const shops = [
     ],
   },
   {
+    address: "shopaddress",
     name: "Plouf",
     balance: "4.8635",
     hasFidelityCard: false,
