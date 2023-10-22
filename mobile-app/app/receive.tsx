@@ -1,25 +1,29 @@
 import { FC } from "react";
 import { View, Text } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 import QrCode from "../components/QrCode";
 import LoyoStatusBar from "../components/LoyoStatusBar";
 
 const Page: FC = () => {
+  return (
+    <View className="flex-1 flex-grow ">
+      <LinearGradient
+        colors={["#0099F8", "#fff"]}
+        className="flex-1 items-center"
+      >
+        <Text className="mt-14 mb-8 text-3xl font-bold">
+          Receive loyalties !
+        </Text>
 
-    return <View className="flex flex-grow align-middle justify-center">
-
-        <View className="mb-8">
-            <Text className="text-3xl font-bold mb-4">
-                Receive loyalties !
-            </Text>
-        </View>
-
-        <View className="block m-auto">
-            <QrCode className="w-48 h-48" />
-        </View>
-
+        <QrCode className="w-48 h-48" />
+        <Text className="mt-4 text-lg text-center px-6">
+          Scan this QR Code to give your address and receive fidelity tokens
+        </Text>
         <LoyoStatusBar />
-    </View>;
+      </LinearGradient>
+    </View>
+  );
 };
 
 export default Page;
